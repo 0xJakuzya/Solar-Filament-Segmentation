@@ -30,8 +30,7 @@ $$
 
 $$
 \mathrm{IoU}(y,\hat{y}) =
-\frac{|y \cap \hat{y}|}{|y \cup \hat{y}|}
-=
+\frac{|y \cap \hat{y}|}{|y \cup \hat{y}|} =
 \frac{\sum (y \odot \hat{y})}
 {\sum (y + \hat{y} - y \odot \hat{y})}
 $$
