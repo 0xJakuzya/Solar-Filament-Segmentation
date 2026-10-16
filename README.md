@@ -1,27 +1,33 @@
-# Сегментация солнечных филаментов
+# Solar Filament Segmentation
 
-## Описание задачи
+## Task Description
 
-Необходимо разработать алгоритм, который генерирует точные сегментационные маски для отдельных солнечных нитей. Для каждой филамента предсказанная маска должна охватывать полный объем нити, включая её мелкомасштабные структуры, минимизируя включение нефиламентных областей. Задача направлена на надёжное и точное определение морфологии филамента в различных солнечных наблюдениях.
+The goal is to develop an algorithm that generates accurate segmentation masks for individual solar filaments. For each filament, the predicted mask should capture its full extent, including fine-scale structures, while minimizing the inclusion of non-filament regions. The task aims to reliably and accurately characterize filament morphology across different solar observations.
 
-## Каковы основные трудности?
-Хотя недавние достижения в сегментации объектов привели к впечатляющей производительности во многих областях, сегментация солнечных филаментов остаётся сложной задачей по нескольким причинам:
+## What Are the Main Challenges?
 
-- **Тонкомасштабные конструкции**. Точное запечатление тонких структур нити, таких как зазубры, остаётся сложным. Зазубцы — это тонкие, ниточкообразные элементы, которые тянутся от основного тела нити по характерной ориентации. Их ориентация относительно позвоночника нити содержит важную информацию о расположении магнитного поля нити.
-- **Фоновый шум и качество изображения**. Отличие материала филамента (тёмных областей) от фоновых структур и шума непросто. Поскольку наблюдения, используемые в этом конкурсе, исходят из наземных обсерваторий, они подвержены влиянию различных источников шума и артефактов изображения. Точная идентификация мелкомасштабных структур филаментов при подавлении фоновых шумов остаётся серьёзной задачей.
-- **Структурная преемственность.** Существующие алгоритмы сегментации часто испытывают трудности с идентификацией солнечных нитей как смежных физических структур. Вместо этого они могут создавать фрагментированные сегментации или сегментные кластеры близлежащих тёмных областей («островков»), что приводит к неполным или физически несогласованным представлениям морфологии филамента.
+Although recent advances in object segmentation have achieved impressive performance across many domains, solar filament segmentation remains challenging for several reasons:
 
-Поданные материалы будут оцениваться по наземным данным (MAGFiLO) с использованием метрики Паноптического качества, которая определяется следующим образом:
+- **Fine-scale structures.** Accurately capturing fine filament structures, such as barbs, remains difficult. Barbs are thin, thread-like features that extend from the main body of a filament in characteristic directions. Their orientation relative to the filament spine provides important information about the filament’s magnetic field configuration.
+- **Background noise and image quality.** Distinguishing filament material (dark regions) from background structures and noise is challenging. Since the observations used in this competition come from ground-based observatories, they are affected by various sources of noise and imaging artifacts. Accurately identifying fine-scale filament structures while suppressing background noise remains a major challenge.
+- **Structural continuity.** Existing segmentation algorithms often struggle to identify solar filaments as continuous physical structures. Instead, they may produce fragmented segmentations or group nearby dark regions (“islands”) into clusters, resulting in incomplete or physically inconsistent representations of filament morphology.
 
-$$
+Submissions will be evaluated on ground-based observations from the MAGFiLO dataset using the Panoptic Quality (PQ) metric, defined as follows:
+
+```math
 \mathrm{PQ}(Y,\hat{Y}) =
-\frac{\sum_{(y,\hat{y}) \in TP} \mathrm{IoU}(y,\hat{y})}
-{|TP| + 0.5|FP| + 0.5|FN|}
-$$
+\frac{
+\displaystyle\sum_{(y,\hat{y})\in\mathrm{TP}}
+\mathrm{IoU}(y,\hat{y})
+}{
+|\mathrm{TP}| + 0.5|\mathrm{FP}| + 0.5|\mathrm{FN}|
+}
+```
 
-где
-- Y — множество всех сегментов основной истины y,
-- Y-hat — это множество всех предсказанных сегментов y-hat,
-- IoU вычисляет пересечение над унионом, как показано ниже,
-- TP, FP и FN обозначают множества всех истинно положительных, ложноположительных и ложноотрицательных случаев соответственно, и
-- |.| — операция мощности множества.
+where:
+
+- \(Y\) is the set of all ground-truth segments \(y\).
+- \(\hat{Y}\) is the set of all predicted segments \(\hat{y}\).
+- \(\mathrm{IoU}\) denotes intersection over union.
+- \(\mathrm{TP}\), \(\mathrm{FP}\), and \(\mathrm{FN}\) denote the sets of matched ground-truth and predicted segment pairs, unmatched predicted segments, and unmatched ground-truth segments, respectively.
+- \(|\cdot|\) denotes the cardinality of a set.
